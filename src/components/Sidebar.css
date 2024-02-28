@@ -1,0 +1,88 @@
+body > .sidebar {
+  will-change: transform;
+}
+.side-nav{
+  width: 80px;
+  height: 100%;
+  position: fixed;
+  top: 80px;
+  left: 5px;
+  padding: 15px 15px;
+  background: rgba(228, 190, 190, 0.5);
+  backdrop-filter: blur(5px);
+  display: flex;
+  justify-content: space-evenly;
+  flex-flow: column nowrap;
+  transition:  width 0.5s ease-in-out 0.1s;
+  border-radius: 5px;
+  z-index: 999;
+}
+.user{
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  width: 60px;
+  font-size: 1rem;
+  padding: 0.8em;
+  border-radius: 8px;
+  margin-left: auto;
+  margin-right: auto;
+  overflow: hidden;
+}
+.user figcaption{
+  display: none;
+  padding: 5px;
+  font-family: sans-serif;
+  font-size: 0.9rem;
+  font-weight: 600;
+  color: teal;
+  white-space: nowrap;
+}
+.user .user-img{
+  width: 40px;
+  border-radius: 50%;
+  margin: auto;
+  background: hsla(208, 100%, 97%, 0.377);
+}
+ul{
+  list-style: none;
+  padding: 0 15px;
+}
+ul li{
+  margin: 30px 0;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  cursor: pointer;
+}
+ul li img{
+  width: 30px;
+  margin-right: 0;
+}
+ul li p{
+  white-space: nowrap;
+  display: none;
+}
+.side-nav:hover{
+  width: 220px;
+}
+.side-nav:hover .user figcaption{
+  display: block;
+}
+.side-nav:hover .user{
+  width: 100%;
+  background: rgba(228, 190, 190, 0.5);
+  backdrop-filter: blur(5px);
+}
+.side-nav:hover .user-img{
+  margin: 0;
+}
+.side-nav:hover ul li p{
+  display: block;
+}
+.side-nav:hover ul li img{
+  margin-right: 1rem;
+}
+.side-nav:hover ul li{
+  justify-content: flex-start;
+}

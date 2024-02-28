@@ -1,0 +1,118 @@
+*{
+  margin: 0;
+  padding: 0;
+  box-sizing: border-box;
+}
+.container{
+  position: fixed;
+  top: 50px; /* Position it in the center vertically */
+  left: 250px; /* Position it in the center horizontally */
+  min-width: 350px;
+  padding: 1rem;
+  background: hsla(0, 0%, 50%, 0.5);
+  border-radius: 5px;
+  z-index: 999;
+}
+.drag-area{
+  height: 200px;
+  border: 1px dashed powderblue;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  flex-flow: column nowrap;
+  color: aliceblue;
+}
+h3{
+  margin-bottom: 1.5rem;
+  font-weight: bolder;
+}
+.drag-area img{
+ font-size: 3rem; 
+}
+.drag-area .drag--header{
+  font-size: 1.5rem;
+  font-weight: lighter;
+}
+.drag-area .supports{
+  font-size: 1rem;
+  color: whitesmoke;
+  margin: 10px 0 15px 0;
+}
+.drag-area .button{
+  font-weight: 400;
+  color: #1683ff;
+  cursor: pointer;
+}
+.drag-area .button:hover{
+  text-decoration: underline;
+}
+.drag-area.active{
+  border: 1px solid #1683ff;
+}
+.drag-area img.new-image{
+  width: 98%;
+  height: 98%;
+  object-fit: cover;
+}
+.success,
+.fail,
+.default--p{
+  font-family: monospace;
+  font-size: 1rem;
+  padding: 0.5em;
+  margin: 1em;
+}
+.message{
+  background: hsla(39, 77%, 83%, 0.568);
+  padding: 10px 5px;
+}
+.input--severity{
+  margin: 5px;
+  padding: 0 5px;
+  line-height: 1.5;
+  border: none;
+  outline: none;
+  background: transparent;
+  border-bottom: 1px solid #333;
+  color: firebrick;
+}
+.input--severity::placeholder{
+  font-style: italic;
+  font-family: monospace;
+  font-weight: lighter;
+  color: hsla(208, 100%, 97%, 0.616);
+}
+.success{
+  color: green;
+}
+.fail{
+  color: red;
+}
+.submit-btn{
+  font-size: 1rem;
+  border: none;
+  border-radius: 5px;
+  padding: 1em;
+  margin: 0 0 10px 100px;
+  font-family: monospace;
+  background: rosybrown;
+  color: aliceblue;
+}
+.submit-btn:hover{
+  color: rosybrown;
+  background: aliceblue;
+}
+.latitude,
+.longitude,
+.date{
+  font-family: monospace;
+  font-size: 1rem;
+  font-weight: lighter;
+  margin: 0.2rem;
+}
+.latitude{
+  color: slateblue;
+}
+.longitude{
+  color: blueviolet;
+}
