@@ -175,7 +175,7 @@ function Uploader() {
             <p className="date">Date Taken: {metadata.dateTaken.toLocaleDateString('en-US', { weekday: 'long', year: 'numeric', month: 'long', day: 'numeric' }).replace(/,/g, '')}</p>
             <label htmlFor="severity">Severity: </label>
             <input type="text" name="severity" id="severity" placeholder='[high, medium, low]' className='input--severity' ref={damage} onChange={handleAssessmentChange}/>
-            {responseMessage && <p className="error-message">{responseInfo}</p>}
+            {responseMessage && <p className="response-message">{responseInfo}</p>}
             
             <button className='submit-btn' onClick={handleSubmit}>Submit</button>
           </div>
