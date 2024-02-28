@@ -66,6 +66,10 @@ h3{
   background: hsla(39, 77%, 83%, 0.568);
   padding: 10px 5px;
 }
+.error-message{
+  margin: 5px;
+  text-wrap: wrap;
+}
 .input--severity{
   margin: 5px;
   padding: 0 5px;
@@ -85,7 +89,8 @@ h3{
 .success{
   color: green;
 }
-.fail{
+.fail,
+.error-message{
   color: red;
 }
 .submit-btn{
@@ -97,6 +102,7 @@ h3{
   font-family: monospace;
   background: rosybrown;
   color: aliceblue;
+  display: block;
 }
 .submit-btn:hover{
   color: rosybrown;

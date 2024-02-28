@@ -10,6 +10,8 @@ function Uploader() {
   const [metadata,setMetadata] = useState({});
   const [noCoordinatesFound, setNoCoordinatesFound] = useState(false);
   const [degreeOfDamage,setDegreeOfDamage] = useState('');
+  const [responseMessage,setResponseMessage] = useState(false);
+  const [responseInfo,setResponseInfo] = useState('');
   
   const dragArea = useRef(null);
   const fileButton = useRef(null);
@@ -48,14 +50,14 @@ function Uploader() {
       });
       const response = await fetch(request);
       const data = await response.json();
+      setResponseMessage(true);
       if (response.ok) {
         console.log(data);
         console.log('Image data submitted successfully');
+        setResponseInfo(data.message)
       } else {
-        console.log(data.err.message);
-        // console.log('Server Error: ',data.message.name);
-        // console.log('Server Error: ',data.message.errors);
-        // console.log('Failed to submit image data',data.messages);
+        console.log(data);
+        setResponseInfo(data.errMessage)
       }
     } catch (error) {
       console.log('Error submitting image data:', error);
@@ -173,10 +175,11 @@ function Uploader() {
             <p className="date">Date Taken: {metadata.dateTaken.toLocaleDateString('en-US', { weekday: 'long', year: 'numeric', month: 'long', day: 'numeric' }).replace(/,/g, '')}</p>
             <label htmlFor="severity">Severity: </label>
             <input type="text" name="severity" id="severity" placeholder='[high, medium, low]' className='input--severity' ref={damage} onChange={handleAssessmentChange}/>
+            {responseMessage && <p className="error-message">{responseInfo}</p>}
             
+            <button className='submit-btn' onClick={handleSubmit}>Submit</button>
           </div>
         )}
-        <button className='submit-btn' onClick={handleSubmit}>Submit</button>
     </div>
     </div>
   )
