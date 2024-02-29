@@ -68,7 +68,6 @@ h3{
 }
 .response-message{
   margin: 5px;
-  text-wrap: wrap;
   color: darkslategrey;
 }
 .input--severity{

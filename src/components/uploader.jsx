@@ -16,7 +16,6 @@ function Uploader() {
   const dragArea = useRef(null);
   const fileButton = useRef(null);
   const spanBtn = useRef(null);
-  const damage = useRef(null);
 
   console.log(metadata);
   console.log(degreeOfDamage);
@@ -25,10 +24,7 @@ function Uploader() {
     maxSizeMB: 2,
     maxWidthOrHeight: 1080,
     useWebWorker: true,
-  }
-  function handleAssessmentChange(){
-    let damageAssessment = damage.current.value.toLowerCase();
-    setDegreeOfDamage(damageAssessment);
+    onProgress: (progress) => console.log(`Compression progress: ${progress}%`),
   }
   
   async function handleSubmit() {
@@ -58,6 +54,7 @@ function Uploader() {
       } else {
         console.log(data);
         setResponseInfo(data.errMessage)
+        throw new Error(`HTTP error! status: ${response.status}`);
       }
     } catch (error) {
       console.log('Error submitting image data:', error);
@@ -174,7 +171,7 @@ function Uploader() {
             <p className="longitude">Longitude: {metadata.longitude}</p>
             <p className="date">Date Taken: {metadata.dateTaken.toLocaleDateString('en-US', { weekday: 'long', year: 'numeric', month: 'long', day: 'numeric' }).replace(/,/g, '')}</p>
             <label htmlFor="severity">Severity: </label>
-            <input type="text" name="severity" id="severity" placeholder='[high, medium, low]' className='input--severity' ref={damage} onChange={handleAssessmentChange}/>
+            <input type="text" name="severity" id="severity" placeholder='[high, medium, low]' className='input--severity' onChange={e => setDegreeOfDamage(e.target.value)}/>
             {responseMessage && <p className="response-message">{responseInfo}</p>}
             
             <button className='submit-btn' onClick={handleSubmit}>Submit</button>
