@@ -1,0 +1,7 @@
+.leaflet-popup-content {
+  width: 200px;
+  height: 4rem;
+  padding: 10px;
+  border: 2px solid red;
+}
+

@@ -60,10 +60,10 @@ h3{
   font-family: monospace;
   font-size: 1rem;
   padding: 0.5em;
-  margin: 1em;
+  margin: 0.5em;
 }
 .message{
-  background: hsla(39, 77%, 83%, 0.568);
+  background: hsla(20, 3%, 77%, 0.66);
   padding: 10px 5px;
 }
 .response-message{
@@ -83,14 +83,20 @@ h3{
 .input--severity::placeholder{
   font-style: italic;
   font-family: monospace;
-  font-weight: lighter;
-  color: hsla(208, 100%, 97%, 0.616);
+  font-weight: bolder;
+  color: dimgrey;
 }
 .success{
   color: green;
 }
 .fail{
   color: red;
+}
+.coordinate label{
+  font-family: monospace;
+  font-size: 1rem;
+  font-weight: 400;
+  margin: 0.2rem;
 }
 .submit-btn{
   font-size: 1rem;

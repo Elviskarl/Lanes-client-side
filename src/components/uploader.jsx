@@ -44,9 +44,10 @@ function Uploader() {
           }
         })
       });
+      setResponseMessage(true);
+      setResponseInfo('Sending data to the server, This may take a while...');
       const response = await fetch(request);
       const data = await response.json();
-      setResponseMessage(true);
       if (response.ok) {
         console.log(data);
         console.log('Image data submitted successfully');
