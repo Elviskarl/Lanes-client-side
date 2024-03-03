@@ -1,7 +1,7 @@
 import { useRef,useEffect,useState } from "react";
-import L from "leaflet";
+// import L from "leaflet";
 import { MapContainer, TileLayer, Popup, Marker, LayersControl } from "react-leaflet";
-import settingIcon from "../assets/setting.png";
+// import warningIcon from "../assets/warning.svg";
 import "leaflet/dist/leaflet.css";
 import "./Map.css";
 
@@ -14,12 +14,12 @@ const style = {
   margin: 'auto',
 }
 // Define your custom icon
-const customIcon = L.icon({
-  iconUrl: settingIcon, // Path to your icon file
-  iconSize: [38, 95], // Size of the icon
-  iconAnchor: [22, 94], // Point of the icon which will correspond to marker's location
-  popupAnchor: [-3, -76] // Point from which the popup should open relative to the iconAnchor
-});
+// const customIcon = L.icon({
+//   iconUrl: warningIcon, // Path to your icon file
+//   iconSize: [38, 95], // Size of the icon
+//   iconAnchor: [22, 94], // Point of the icon which will correspond to marker's location
+//   popupAnchor: [-3, -76] // Point from which the popup should open relative to the iconAnchor
+// });
 
 export default function Map() {
   const { BaseLayer} = LayersControl
@@ -28,7 +28,7 @@ export default function Map() {
   const [data,setData] = useState(null);
   const [isLoaded, setIsLoaded] = useState(false);
   useEffect(()=>{
-    const fetchData = async () => {
+    async function fetchData(){
       try {
         const jsonResponse = await fetch('/api/v1/images');
         const response = await jsonResponse.json();
@@ -67,15 +67,39 @@ export default function Map() {
       </BaseLayer>
     </LayersControl>
     {data !==null && data.map(obj => {
-    return (
-    <Marker 
-      position={obj.location.coordinates} 
-      key={obj._id}
-      icon={customIcon}>
+      return (
+        <Marker 
+        position={obj.location.coordinates} 
+        key={obj._id}
+        title={obj.severity}
+        // icon={customIcon}
+        >
       <Popup>
-      <div className="response---container">
-        <img src={obj.cloudinary_url} alt="Image" style={style}/>
-      </div>
+        <img src={obj.cloudinary_url} alt="Image" style={style} loading="lazy"/>
+        <br />
+        <p style={{
+          marginBottom: "5px",
+          marginTop: "0",
+          fontFamily: "monospace",
+          fontSize: "1.2rem",
+          color: "royalblue",
+          lineHeight: "1.2"
+        }}>Uploaded by {obj.user}.</p>
+        <h3 style={{
+          margin: "5px 0",
+          fontFamily: "monospace",
+          fontSize: "1.1rem",
+          fontWeight: "lighter",
+          color: "orangered"
+          }}>Severity: {obj.severity}.</h3>
+        <p style={{
+          marginTop: "5px",
+          fontFamily: "monospace",
+          fontSize: "1rem",
+          color: "rebeccapurple",
+          marginBottom: "0",
+          lineHeight: "1.2"
+          }}>Uploaded on {obj.dateTaken}.</p>
       </Popup>
     </Marker>)}
     )}

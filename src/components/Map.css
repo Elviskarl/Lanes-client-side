@@ -1,7 +1,6 @@
 .leaflet-popup-content {
-  width: 200px;
-  height: 4rem;
   padding: 10px;
-  border: 2px solid red;
+  box-sizing: border-box;
+  border-radius: 3px;
+  background-color: hsla(48, 100%, 93%, 0.363);
 }
-

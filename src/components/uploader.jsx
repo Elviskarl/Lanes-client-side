@@ -1,8 +1,10 @@
 import { useRef, useState } from 'react';
 import exifr from "exifr";
 import imageCompression from 'browser-image-compression';
-import image from '../assets/icon.png'
+import {HashLoader,ClockLoader} from  'react-spinners'
+import image from '../assets/icon.png';
 import './uploader.css';
+
 
 function Uploader() {
   const [text, setText] = useState(null);
@@ -12,6 +14,9 @@ function Uploader() {
   const [degreeOfDamage,setDegreeOfDamage] = useState('');
   const [responseMessage,setResponseMessage] = useState(false);
   const [responseInfo,setResponseInfo] = useState('');
+  const [loading, setLoading] = useState(false);
+  const [submitLoading, setSubmitLoading] = useState(false);
+  
   
   const dragArea = useRef(null);
   const fileButton = useRef(null);
@@ -19,16 +24,23 @@ function Uploader() {
 
   console.log(metadata);
   console.log(degreeOfDamage);
+  console.log('responseMessage: ', responseMessage);
 
   const options = {
-    maxSizeMB: 2,
-    maxWidthOrHeight: 1080,
+    maxSizeMB: 0.8,
+    maxWidthOrHeight: 720,
     useWebWorker: true,
     onProgress: (progress) => console.log(`Compression progress: ${progress}%`),
   }
+  const override = {
+    display: "block",
+    margin: "10px auto",
+    borderColor: "red",
+  };
   
   async function handleSubmit() {
     try {
+      setSubmitLoading(true);
       const request = new Request('/api/v1/images',{
         method: 'POST',
         headers: {
@@ -44,10 +56,11 @@ function Uploader() {
           }
         })
       });
-      setResponseMessage(true);
       setResponseInfo('Sending data to the server, This may take a while...');
       const response = await fetch(request);
       const data = await response.json();
+      setSubmitLoading(false);
+      setResponseMessage(true);
       if (response.ok) {
         console.log(data);
         console.log('Image data submitted successfully');
@@ -55,9 +68,11 @@ function Uploader() {
       } else {
         console.log(data);
         setResponseInfo(data.errMessage)
-        throw new Error(`HTTP error! status: ${response.status}`);
       }
     } catch (error) {
+      console.log(error)
+      setSubmitLoading(false)
+      setResponseInfo('Error submitting image data.')
       console.log('Error submitting image data:', error);
     }
   }
@@ -106,6 +121,7 @@ function Uploader() {
       }
       
       try {
+        setLoading(true);
         const compressedFile = await imageCompression(file, options); // Apply compression here
         console.log('Compressed file size:', compressedFile.size / 1024 / 1024, 'MB');
         
@@ -116,6 +132,7 @@ function Uploader() {
           let fileUrl = e.target.result;
           setImageUrl(fileUrl);
           setText('success');
+          setLoading(false);
         };
       } catch (error) {
         console.error('Error compressing image:', error);
@@ -143,9 +160,12 @@ function Uploader() {
     <div className='container uploader-container'>
       <h3>Upload your Image</h3>
       <div className="drag-area" ref={dragArea} onDragOver={handleDrag} onDragLeave={handleDragLeave} onDrop={handleDrop}>
-      {imageUrl ? (
-        <img src={imageUrl} className="new-image" alt="Image" />
-      ) : (
+      {loading ? (
+        <HashLoader size={60} color={"aqua"} loading={loading} cssOverride={override}/>
+      ) : imageUrl ? (
+        <img src={imageUrl} className="new-image" alt="Image" loading='lazy'/>
+      )
+      : (
         <>
           <figure className='image-icon'>
             <img src={image} alt="Image" width={'40px'} height={'40px'} />
@@ -173,7 +193,12 @@ function Uploader() {
             <p className="date">Date Taken: {metadata.dateTaken.toLocaleDateString('en-US', { weekday: 'long', year: 'numeric', month: 'long', day: 'numeric' }).replace(/,/g, '')}</p>
             <label htmlFor="severity">Severity: </label>
             <input type="text" name="severity" id="severity" placeholder='[high, medium, low]' className='input--severity' onChange={e => setDegreeOfDamage(e.target.value)}/>
-            {responseMessage && <p className="response-message">{responseInfo}</p>}
+            {submitLoading ? (
+            <>
+              <p className="response-message">Uploading image to server, This may take a while ...</p>
+              <ClockLoader size={40} color={"#f0f8ff"} loading={submitLoading} cssOverride={override}/>
+            </>
+            ) : <p className="response-message">{responseInfo}</p>}
             
             <button className='submit-btn' onClick={handleSubmit}>Submit</button>
           </div>

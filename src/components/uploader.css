@@ -9,7 +9,7 @@
   left: 250px; /* Position it in the center horizontally */
   min-width: 350px;
   padding: 1rem;
-  background: hsla(0, 0%, 50%, 0.5);
+  background: hsla(0, 0%, 50%, 0.7);
   border-radius: 5px;
   z-index: 999;
 }
@@ -22,7 +22,8 @@
   flex-flow: column nowrap;
   color: aliceblue;
 }
-h3{
+.container h3{
+  font-size: 1.1rem;
   margin-bottom: 1.5rem;
   font-weight: bolder;
 }
@@ -40,7 +41,7 @@ h3{
 }
 .drag-area .button{
   font-weight: 400;
-  color: #1683ff;
+  color: hsl(187, 100%, 54%);
   cursor: pointer;
 }
 .drag-area .button:hover{
@@ -68,7 +69,10 @@ h3{
 }
 .response-message{
   margin: 5px;
-  color: darkslategrey;
+  color: blue;
+  font-family: monospace;
+  font-size: 1rem;
+  font-weight: lighter;
 }
 .input--severity{
   margin: 5px;
@@ -89,7 +93,8 @@ h3{
 .success{
   color: green;
 }
-.fail{
+.fail,
+p.response-message.fail{
   color: red;
 }
 .coordinate label{
