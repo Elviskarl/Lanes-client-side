@@ -145,3 +145,10 @@
 .login-register p a:hover{
   text-decoration: underline;
 }
+.error{
+  font-family: monospace;
+  font-weight: lighter;
+  line-height: 1;
+  font-size: 0.9rem;
+  color: red;
+}

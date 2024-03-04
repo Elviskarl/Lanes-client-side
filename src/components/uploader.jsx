@@ -163,7 +163,7 @@ function Uploader() {
       {loading ? (
         <HashLoader size={60} color={"aqua"} loading={loading} cssOverride={override}/>
       ) : imageUrl ? (
-        <img src={imageUrl} className="new-image" alt="Image" loading='lazy'/>
+        <img src={imageUrl} className="new-image" alt="Image"/>
       )
       : (
         <>
