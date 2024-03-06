@@ -1,6 +1,7 @@
-import { useRef,useEffect, useState } from 'react'
+import { useRef,useEffect, useState, useContext} from 'react'
 import PropTypes from 'prop-types';
 import './Login.css'
+import authContext from '../context/authContext';
 
 Login.propTypes = {
   loginState: PropTypes.bool.isRequired,
@@ -16,9 +17,22 @@ export default function Login({loginState}) {
     email: '',
     password: ''
   });
+  const [loggedIn, setLoggedIn] = useState(false);
+  // const [authInfo,setAuthInfo] = useState({
+  //   loggedIn: false,
+  //   userName: '',
+  //   email: '',
+  // }); 
+
+  const {setAuthInfo} = useContext(authContext);
+
 
   const [loginError, setLoginError] = useState({});
   const [registerError, setRegisterError] = useState({});
+  const [responseMessage,setResponseMessage] = useState({
+    visible: false,
+    message: ''
+  });
 
 
   useEffect(() => {
@@ -38,18 +52,27 @@ export default function Login({loginState}) {
 
   console.log(formLoginData);
   console.log(formRegisterData);
+  console.log(loggedIn);
 
   function handleRegisterClick(){
     if (wrapper.current) {
       wrapper.current.classList.add('active');
+      setResponseMessage({
+        visible: false,
+        message: ''
+      });
     }
   }
   function handleLoginClick(){
     if (wrapper.current) {
       wrapper.current.classList.remove('active');
+      setResponseMessage({
+        visible: false,
+        message: ''
+      });
     }
   }
-  function handleLogin(e){
+  async function handleLogin(e){
     if(loginForm.current && loginForm.current.checkValidity()){
       e.preventDefault();
       const validationErrors = {}
@@ -65,9 +88,42 @@ export default function Login({loginState}) {
       }
       setLoginError(validationErrors);
       if(Object.keys(validationErrors).length > 0) return;
+
+      try {
+        const request = new Request('/api/v1/user/login',{
+          method: 'POST',
+          headers: {
+            'Content-Type': 'application/json'
+          },
+          body: JSON.stringify(formLoginData)
+        });
+        const response = await fetch(request);
+        const data = await response.json();
+        
+        setResponseMessage({
+          visible: true,
+          message: data.message});
+        if(response.ok){
+          setLoggedIn(true);
+          setFormLoginData({
+            email: '',
+            password: ''
+          });
+          setAuthInfo({
+            loggedIn: true,
+            userName: data.userName,
+            email: data.email
+          });
+        }
+        console.log(data);
+        
+      } catch (error) {
+        console.log(error);
+      }
+      
     }
   }
-  function handleRegister(e){
+  async function handleRegister(e){
     if(registerForm.current && registerForm.current.checkValidity()){
       e.preventDefault();
       const validationErrors = {};
@@ -86,10 +142,39 @@ export default function Login({loginState}) {
       }
       setRegisterError(validationErrors);
       if(Object.keys(validationErrors).length > 0) return;
+      
+      try {
+        const request = new Request('/api/v1/user/register',{
+          method: 'POST',
+          headers: {
+            'Content-Type': 'application/json'
+          },
+          body: JSON.stringify(formRegisterData)
+        });
+        const response = await fetch(request);
+        const data = await response.json();
+        console.log(data);
+        setResponseMessage({
+          visible: true,
+          message: data.message});
+        if(response.ok){
+          setLoggedIn(true);
+          setFormRegisterData({
+            userName: '',
+            email: '',
+            password: ''
+          });
+        }
+        console.log(data);
+      } catch (error) {
+        console.log(error);
+      }
+      
     }
   }
 
-  return (<>
+  return (
+      <>
         <div className="wrapper" ref={wrapper}>
           <span className="icon-close" ref={close}><ion-icon name="close-outline"></ion-icon></span>            
           <div className="form-box login">
@@ -97,7 +182,7 @@ export default function Login({loginState}) {
             <form ref={loginForm}>
               <div className="input-box">
             <span className="icon"><ion-icon name="mail-open-outline"></ion-icon></span>
-                <input type="email" name='email' id='login-email' placeholder='email @' onChange={e => {
+                <input type="email" name='email' value={formLoginData.email} id='login-email' placeholder='email @' onChange={e => {
                   const {name,value} = e.target;
                   setFormLoginData(prevVal => ({
                     ...prevVal,
@@ -108,7 +193,7 @@ export default function Login({loginState}) {
               </div>
               <div className="input-box">
                 <span className="icon"><ion-icon name="lock-closed-outline"></ion-icon></span>
-                <input type="password" name='password' id='login-password' placeholder='*****' onChange={e => {
+                <input type="password" name='password' value={formLoginData.password} id='login-password' placeholder='*****' onChange={e => {
                   const {name,value} = e.target;
                   setFormLoginData(prevVal => ({
                     ...prevVal,
@@ -120,6 +205,7 @@ export default function Login({loginState}) {
                 <button className="submit--button" onClick={handleLogin}>Login</button>
                 <div className="login-register">
                   <p>Do not have an account? <a href="#" className="register-link" ref={registerLink} onClick={handleRegisterClick}>Register</a></p>
+                  {responseMessage.visible && <p className="response-message">{responseMessage.message}</p>}
                 </div>
             </form>
           </div>
@@ -129,7 +215,7 @@ export default function Login({loginState}) {
             <form ref={registerForm}>
             <div className="input-box">
                 <span className="icon"><ion-icon name="person-circle-outline"></ion-icon></span>
-                <input type="text" name='userName' id='register-name' placeholder="name" onChange={e => {
+                <input type="text" name='userName' id='register-name' value={formRegisterData.userName} placeholder="name" onChange={e => {
                 const {name,value} = e.target;
                   setFormRegisterData(prevVal => ({
                     ...prevVal,
@@ -140,7 +226,7 @@ export default function Login({loginState}) {
               </div>
               <div className="input-box">
                 <span className="icon"><ion-icon name="mail-open-outline"></ion-icon></span>
-                <input type="email" name='email' id='register-email' placeholder='email @' onChange={e => {
+                <input type="email" name='email' id='register-email' value={formRegisterData.email} placeholder='email @' onChange={e => {
                   const {name,value} = e.target;
                   setFormRegisterData(prevVal => ({
                     ...prevVal,
@@ -151,7 +237,7 @@ export default function Login({loginState}) {
               </div>
               <div className="input-box">
                 <span className="icon"><ion-icon name="lock-closed-outline"></ion-icon></span>
-                <input type="password" name='password' id='register-password' placeholder='****' onChange={e => {
+                <input type="password" name='password' value={formRegisterData.password} id='register-password' placeholder='****' onChange={e => {
                   const {name,value} = e.target;
                   setFormRegisterData(prevVal => ({
                     ...prevVal,
@@ -163,10 +249,10 @@ export default function Login({loginState}) {
                 <button className="submit--button" onClick={handleRegister}>Register</button>
                 <div className="login-register">
                   <p>Already have an account? <a href="#" className="login-link" ref={loginLink} onClick={handleLoginClick}>Login</a></p>
+                  {responseMessage.visible && <p className="response-message">{responseMessage.message}</p>}
                 </div>
             </form>
           </div>
     </div>
-    
-  </>)
+    </>)
 }
