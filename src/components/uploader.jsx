@@ -1,8 +1,9 @@
-import { useRef, useState } from 'react';
+import { useRef, useState, useContext } from 'react';
 import exifr from "exifr";
 import imageCompression from 'browser-image-compression';
 import {HashLoader,ClockLoader} from  'react-spinners'
 import image from '../assets/icon.png';
+import authContext from '../context/authContext';
 import './uploader.css';
 
 
@@ -16,6 +17,7 @@ function Uploader() {
   const [responseInfo,setResponseInfo] = useState('');
   const [loading, setLoading] = useState(false);
   const [submitLoading, setSubmitLoading] = useState(false);
+  const authInfo = useContext(authContext);
   
   
   const dragArea = useRef(null);
@@ -40,6 +42,12 @@ function Uploader() {
   
   async function handleSubmit() {
     try {
+      let user;
+      !authInfo.authInfo.loggedIn ?
+       user = 'user' 
+       : user = authInfo.authInfo.userName;
+
+      user = authInfo.authInfo.userName;
       setSubmitLoading(true);
       const request = new Request('/api/v1/images',{
         method: 'POST',
@@ -52,7 +60,8 @@ function Uploader() {
             latitude: metadata.latitude,
             longitude: metadata.longitude,
             dateTaken: metadata.dateTaken,
-            severity: degreeOfDamage
+            severity: degreeOfDamage,
+            user: user
           }
         })
       });
