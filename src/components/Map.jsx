@@ -41,10 +41,9 @@ export default function Map() {
     }
     fetchData();
     },[]);
-    console.log(data);
   // -1.2189538708279413, 36.889263278670875
   const position = [-1.2189538708279413, 36.889263278670875];
-  const zoomNumber = 15;
+  const zoomNumber = 14.555;
   return (
     isLoaded && <MapContainer 
       center={position} 

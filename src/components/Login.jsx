@@ -50,8 +50,8 @@ export default function Login({loginState}) {
   const loginForm = useRef(null);
   const registerForm = useRef(null);
 
-  console.log(formLoginData);
-  console.log(formRegisterData);
+  // console.log(formLoginData);
+  // console.log(formRegisterData);
   console.log(loggedIn);
 
   function handleRegisterClick(){
@@ -115,7 +115,7 @@ export default function Login({loginState}) {
             email: data.email
           });
         }
-        console.log(data);
+        // console.log(data);
         
       } catch (error) {
         console.log(error);
@@ -165,7 +165,7 @@ export default function Login({loginState}) {
             password: ''
           });
         }
-        console.log(data);
+        // console.log(data);
       } catch (error) {
         console.log(error);
       }

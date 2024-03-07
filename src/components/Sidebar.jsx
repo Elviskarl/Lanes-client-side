@@ -12,7 +12,7 @@ import authContext from '../context/authContext'
 function Sidebar() {
   const [visible,setVisible] = useState(false);
   const authInfo = useContext(authContext);
-  console.log(authInfo.authInfo);
+  // console.log(authInfo.authInfo);
   function visibility(){
     setVisible(prevState => !prevState)
   }

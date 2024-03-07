@@ -24,9 +24,9 @@ function Uploader() {
   const fileButton = useRef(null);
   const spanBtn = useRef(null);
 
-  console.log(metadata);
-  console.log(degreeOfDamage);
-  console.log('responseMessage: ', responseMessage);
+  // console.log(metadata);
+  // console.log(degreeOfDamage);
+  // console.log('responseMessage: ', responseMessage);
 
   const options = {
     maxSizeMB: 0.8,
@@ -73,7 +73,11 @@ function Uploader() {
       if (response.ok) {
         console.log(data);
         console.log('Image data submitted successfully');
-        setResponseInfo(data.message)
+        setResponseInfo(data.message);
+        setTimeout(()=>{
+          setImageUrl('');
+          setMetadata({});          
+        },3000)
       } else {
         console.log(data);
         setResponseInfo(data.errMessage)
@@ -96,8 +100,8 @@ function Uploader() {
 
   function handleChange(e){
     const selectedFile = e.target.files[0];
-    console.log('originalFile instanceof Blob', selectedFile instanceof Blob); // true
-    console.log(`originalFile size ${selectedFile.size / 1024 / 1024} MB`);
+    // console.log('originalFile instanceof Blob', selectedFile instanceof Blob); // true
+    // console.log(`originalFile size ${selectedFile.size / 1024 / 1024} MB`);
     dragArea.current.classList.add('active');
     displayFile(selectedFile);
   }
@@ -122,7 +126,7 @@ function Uploader() {
         console.log(dateTaken);
         let { latitude, longitude } = await exifr.gps(file);
         setMetadata({ latitude, longitude, dateTaken});
-        console.log(latitude, longitude);
+        // console.log(latitude, longitude);
       } catch (e) {
         console.error('No gps Meta Data :) Try another pix');
         setNoCoordinatesFound(true);
