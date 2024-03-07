@@ -1,6 +1,7 @@
 import { useRef,useEffect,useState } from "react";
 // import L from "leaflet";
 import { MapContainer, TileLayer, Popup, Marker, LayersControl } from "react-leaflet";
+import MarkerClusterGroup from "react-leaflet-cluster";
 // import warningIcon from "../assets/warning.svg";
 import "leaflet/dist/leaflet.css";
 import "./Map.css";
@@ -66,43 +67,45 @@ export default function Map() {
       />             
       </BaseLayer>
     </LayersControl>
-    {data !==null && data.map(obj => {
-      return (
-        <Marker 
-        position={obj.location.coordinates} 
-        key={obj._id}
-        title={obj.severity}
-        // icon={customIcon}
-        >
-      <Popup>
-        <img src={obj.cloudinary_url} alt="Image" style={style} loading="lazy"/>
-        <br />
-        <p style={{
-          marginBottom: "5px",
-          marginTop: "0",
-          fontFamily: "monospace",
-          fontSize: "1.2rem",
-          color: "royalblue",
-          lineHeight: "1.2"
-        }}>Uploaded by {obj.user}.</p>
-        <h3 style={{
-          margin: "5px 0",
-          fontFamily: "monospace",
-          fontSize: "1.1rem",
-          fontWeight: "lighter",
-          color: "orangered"
-          }}>Severity: {obj.severity}.</h3>
-        <p style={{
-          marginTop: "5px",
-          fontFamily: "monospace",
-          fontSize: "1rem",
-          color: "rebeccapurple",
-          marginBottom: "0",
-          lineHeight: "1.2"
-          }}>Uploaded on {obj.dateTaken}.</p>
-      </Popup>
-    </Marker>)}
-    )}
+    <MarkerClusterGroup chunkedLoading>
+      {data !==null && data.map(obj => {
+        return (
+          <Marker 
+          position={obj.location.coordinates} 
+          key={obj._id}
+          title={obj.severity}
+          // icon={customIcon}
+          >
+        <Popup>
+          <img src={obj.cloudinary_url} alt="Image" style={style} loading="lazy"/>
+          <br />
+          <p style={{
+            marginBottom: "5px",
+            marginTop: "0",
+            fontFamily: "monospace",
+            fontSize: "1.2rem",
+            color: "royalblue",
+            lineHeight: "1.2"
+          }}>Uploaded by {obj.user}.</p>
+          <h3 style={{
+            margin: "5px 0",
+            fontFamily: "monospace",
+            fontSize: "1.1rem",
+            fontWeight: "lighter",
+            color: "orangered"
+            }}>Severity: {obj.severity}.</h3>
+          <p style={{
+            marginTop: "5px",
+            fontFamily: "monospace",
+            fontSize: "1rem",
+            color: "rebeccapurple",
+            marginBottom: "0",
+            lineHeight: "1.2"
+            }}>Date taken: {obj.dateTaken}.</p>
+          </Popup>
+        </Marker>)}
+      )}
+    </MarkerClusterGroup>
   </MapContainer>
   )
 }
