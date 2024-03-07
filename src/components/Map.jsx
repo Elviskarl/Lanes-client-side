@@ -30,7 +30,7 @@ export default function Map() {
   useEffect(()=>{
     async function fetchData(){
       try {
-        const jsonResponse = await fetch('/api/v1/images');
+        const jsonResponse = await fetch('https://lanes-server.onrender.com/api/v1/images');
         const response = await jsonResponse.json();
         setData(response.data);
         setIsLoaded(true); // Set isLoaded to true only after data is fetched

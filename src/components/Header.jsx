@@ -11,8 +11,7 @@ function Header() {
         <h2 className='logo'>Lanes</h2>
       <nav className="navigation">
         <a href="#">About</a>
-        <a href="#">Contributions</a>
-        <a href="#">Api</a>
+        <a href="https://lanes-server.onrender.com/api-docs/">Api-Documentation</a>
         <button className='login--button' onClick={handleClick}>Login</button>
       </nav>
     </header>

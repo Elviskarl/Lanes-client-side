@@ -49,7 +49,7 @@ function Uploader() {
 
       user = authInfo.authInfo.userName;
       setSubmitLoading(true);
-      const request = new Request('/api/v1/images',{
+      const request = new Request('https://lanes-server.onrender.com/api/v1/images',{
         method: 'POST',
         headers: {
           'Content-Type': 'application/json',

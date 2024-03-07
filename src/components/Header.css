@@ -59,11 +59,16 @@ body{
   transform: scaleX(1);
   transform-origin: left;
 }
+.navigation a:hover{
+  color: var(--BG-COLOR);
+  font-size: 1rem;
+  font-weight: bolder;
+}
 .navigation .login--button{
   width: 5em;
   height: 1.75rem;
   background: transparent;
-  border: 1px solid aliceblue;
+  border: 1px solid rgb(65, 69, 73);
   outline: none;
   border-radius: 7%;
   cursor: pointer;

@@ -90,7 +90,7 @@ export default function Login({loginState}) {
       if(Object.keys(validationErrors).length > 0) return;
 
       try {
-        const request = new Request('/api/v1/user/login',{
+        const request = new Request('https://lanes-server.onrender.com/api/v1/user/login',{
           method: 'POST',
           headers: {
             'Content-Type': 'application/json'
