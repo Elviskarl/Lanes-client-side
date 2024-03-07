@@ -16,6 +16,9 @@ function Sidebar() {
   function visibility(){
     setVisible(prevState => !prevState)
   }
+  function logOut(){
+    authInfo.setAuthInfo({loggedIn: false, userName: '', email: ''});
+  }
   return (
     <aside>
       <div className="side-nav">
@@ -31,7 +34,7 @@ function Sidebar() {
           <li><img src={searchIcon} alt="search-Icon" /><p>Search</p></li>
         </ul>
         <ul>
-          <li><img src={logOutIcon} alt="logout icon" /><p>Logout</p></li>
+          <li><img src={logOutIcon} alt="logout icon" onClick={logOut}/><p onClick={logOut}>Logout</p></li>
         </ul>
       </div>
       {visible && <Uploader />}
