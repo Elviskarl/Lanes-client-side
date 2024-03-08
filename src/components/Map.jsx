@@ -27,14 +27,12 @@ export default function Map() {
   const mapRef = useRef(null);
   
   const [data,setData] = useState(null);
-  const [isLoaded, setIsLoaded] = useState(false);
   useEffect(()=>{
     async function fetchData(){
       try {
         const jsonResponse = await fetch('https://lanes-server.onrender.com/api/v1/images');
         const response = await jsonResponse.json();
         setData(response.data);
-        setIsLoaded(true); // Set isLoaded to true only after data is fetched
       } catch (error) {
         console.error('Error fetching data:', error);
       }
@@ -45,7 +43,7 @@ export default function Map() {
   const position = [-1.2189538708279413, 36.889263278670875];
   const zoomNumber = 14.555;
   return (
-    isLoaded && <MapContainer 
+    <MapContainer 
       center={position} 
       zoom={zoomNumber}
       scrollWheelZoom={false}
