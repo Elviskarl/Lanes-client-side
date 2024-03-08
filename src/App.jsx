@@ -9,9 +9,9 @@ function App() {
   return (
     <AuthContextProvider>        
       <>
-          <Header />
-          <Sidebar />
-          <Map />
+        <Header />
+        <Sidebar />
+        <Map />
       </>
     </AuthContextProvider>
   )

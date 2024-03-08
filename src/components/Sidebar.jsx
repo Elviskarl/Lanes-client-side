@@ -1,5 +1,6 @@
 import { useContext } from 'react'
 import Uploader from './uploader'
+import Search from './Search'
 import userImage from '../assets/user-icon.png'
 import uploadIcon from '../assets/upload-icon.png'
 import searchIcon from '../assets/search-icon.png'
@@ -11,10 +12,14 @@ import authContext from '../context/authContext'
 
 function Sidebar() {
   const [visible,setVisible] = useState(false);
+  const [searchVisible,setSearchVisible] = useState(false);
   const authInfo = useContext(authContext);
   // console.log(authInfo.authInfo);
   function visibility(){
     setVisible(prevState => !prevState)
+  }
+  function searchVisibility(){
+    setSearchVisible(prevState => !prevState)
   }
   function logOut(){
     authInfo.setAuthInfo({loggedIn: false, userName: '', email: ''});
@@ -31,13 +36,14 @@ function Sidebar() {
         </div>
         <ul>
           <li><img src={uploadIcon} alt="Upload-Icon" onClick={visibility}/><p onClick={visibility}>Upload</p></li>
-          <li><img src={searchIcon} alt="search-Icon" /><p>Search</p></li>
+          <li><img src={searchIcon} alt="search-Icon" onClick={searchVisibility}/><p>Search</p></li>
         </ul>
         <ul>
           <li><img src={logOutIcon} alt="logout icon" onClick={logOut}/><p onClick={logOut}>Logout</p></li>
         </ul>
       </div>
       {visible && <Uploader />}
+      {searchVisible && <Search />}
     </aside>
   )
 }
