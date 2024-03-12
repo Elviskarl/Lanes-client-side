@@ -36,7 +36,7 @@ function Sidebar() {
         </div>
         <ul>
           <li><img src={uploadIcon} alt="Upload-Icon" onClick={visibility}/><p onClick={visibility}>Upload</p></li>
-          <li><img src={searchIcon} alt="search-Icon" onClick={searchVisibility}/><p>Search</p></li>
+          <li><img src={searchIcon} alt="search-Icon" onClick={searchVisibility}/><p onClick={searchVisibility}>Search</p></li>
         </ul>
         <ul>
           <li><img src={logOutIcon} alt="logout icon" onClick={logOut}/><p onClick={logOut}>Logout</p></li>
